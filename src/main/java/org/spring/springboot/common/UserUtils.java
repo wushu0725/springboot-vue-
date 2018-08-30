@@ -1,7 +1,7 @@
 package org.spring.springboot.common;
 
+import org.spring.springboot.domain.UserDetailImpl;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 
 /** @version: 1.0 
 * @Description: （对类进行功能描述） 
@@ -9,7 +9,8 @@ import org.springframework.security.core.userdetails.User;
 * @date: 2018年8月23日
 */
 public class UserUtils {
-	public static User getCurrentHr() {
-        return  (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	public static UserDetailImpl getCurrentUser() {
+		
+        return  (UserDetailImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

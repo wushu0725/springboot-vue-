@@ -1,7 +1,6 @@
 Manifest-Version: 1.0
-Implementation-Title: springboot-restful :: Spsringboot ￥ﾮﾞ￧ﾎﾰ Restful
-  ￦ﾜﾍ￥ﾊﾡ￯ﾼﾌ￥ﾟﾺ￤ﾺﾎ HTTP / JSON ￤ﾼﾠ￨ﾾﾓ Demo
-Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Title: springboot-restful
+Implementation-Version: 1.0
 Built-By: ￥ﾐﾴ￧ﾽﾲ
 Implementation-Vendor-Id: springboot
 Build-Jdk: 1.8.0_171

@@ -1,17 +1,23 @@
 package org.spring.springboot.domain;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.spring.springboot.domain.interfe.LoginDetail;
+import org.spring.springboot.domain.interfe.TokenDetail;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
- * 用户实体类
+ * 
+ * @author 吴署
  *
- * Created by 吴署
  */
-public class User implements UserDetails {
+public class User implements LoginDetail,TokenDetail {
 	
 	/**
 	 * 
@@ -26,8 +32,22 @@ public class User implements UserDetails {
 	
 	private String username;
 	
+	private Long lastPasswordChange;
+	
+	private char enable;
+	
 	List<Role> roles;
 	
+	@JsonIgnore
+	 public Collection<? extends GrantedAuthority> getAuthorities() {
+	        List<GrantedAuthority> authorities = new ArrayList<>();
+	        if(roles!=null) {
+		        for (Role role : roles) {
+		            authorities.add(new SimpleGrantedAuthority(role.getName()));
+		        }
+	        }
+	        return authorities;
+	    }
 
 
 	public List<Role> getRoles() {
@@ -39,10 +59,21 @@ public class User implements UserDetails {
 	}
 
 	
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
-		return this.getRoles();
+	public Long getLastPasswordChange() {
+		return lastPasswordChange;
+	}
+
+	public void setLastPasswordChange(Long lastPasswordChange) {
+		this.lastPasswordChange = lastPasswordChange;
+	}
+
+
+	public char getEnable() {
+		return enable;
+	}
+
+	public void setEnable(char enable) {
+		this.enable = enable;
 	}
 
 	@Override
@@ -66,30 +97,6 @@ public class User implements UserDetails {
 		return this.username;
 	}
 
-	@Override
-	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@Override
-	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@Override
-	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@Override
-	public boolean isEnabled() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
 	public Long getId() {
 		return id;
 	}
@@ -106,8 +113,13 @@ public class User implements UserDetails {
 		this.remark = remark;
 	}
 
-	
+	@Override
+    public boolean enable() {
+        if (this.enable == '1'){
+            return true;
+        }
+        return false;
+    }
 
-    
     
 }

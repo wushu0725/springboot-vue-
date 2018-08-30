@@ -7,9 +7,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.List;
 
 /**
- * 城市 DAO 接口类
+ * 
+ * @author 吴署
  *
- * Created by 吴署
  */
 public interface UserDao {
 
@@ -18,7 +18,7 @@ public interface UserDao {
      *
      * @return
      */
-    List<User> findAllUser();
+    List<User> findAllUser(User user);
 
     /**
      * 根据城市 ID，获取城市信息

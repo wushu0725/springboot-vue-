@@ -6,6 +6,8 @@
 		<result column="remark" property="remark" />
 		<result column="username" property="username" />
 		<result column="password" property="password" />
+		<result column="last_password_change" property="lastPasswordChange"/>
+		<result column="enable" property="enable"/>
 	</resultMap>
 
 	<resultMap id="UserRoleMap" type="org.spring.springboot.domain.User" extends="UserMap">
@@ -18,7 +20,7 @@
 	<parameterMap id="User" type="org.spring.springboot.domain.User"/>
 
 	<sql id="Base_Column_List">
-		id, username, remark, password
+		id, username, remark, password,last_password_change,enable
 	</sql>
 
 	<select id="findById" resultMap="UserMap" parameterType="java.lang.Long">
@@ -29,22 +31,25 @@
 	</select>
 
 	<select id="loadUserByUsername" resultMap="UserRoleMap">
-		SELECT a.id,a.username,a.password,c.id as roleId,c.name as roleName
+		SELECT a.id,a.username,a.password,a.last_password_change,a.enable,c.id as roleId,c.name as roleName
 						from user a left join role_user b on a.id=b.user_id
                      left join role c on b.role_id=c.id where a.username = #{username}
 	</select>
 
-	<select id="findAllUser" resultMap="UserMap" >
+	<select id="findAllUser" resultMap="UserMap" parameterMap="User">
 		select
 		<include refid="Base_Column_List" />
-		from user
+		from user where 1=1 
+		<if test="username!=null and username!=''">
+			and username = #{username}
+		</if>
 	</select>
 
 	<insert id="saveUser" parameterMap="User" useGeneratedKeys="true" keyProperty="id">
 		insert into
-			user(id,username,remark,password)
+			user(username,remark,password,enable)
 		values
-			(#{id},#{username},#{remark},#{password})
+			(#{username},#{remark},#{password},#{enable})
 	</insert>
 
 	<update id="updateUser" parameterMap="User">
@@ -52,12 +57,12 @@
 			User
 		set
 		<if test="username!=null">
-			username = #{username},
+			username = #{username}
 		</if>
 		<if test="remark!=null">
-			remark = #{remark},
+			remark = #{remark}
 		</if>
-		<if test="pwd!=null">
+		<if test="password!=null">
 			password = #{password}
 		</if>
 		where
